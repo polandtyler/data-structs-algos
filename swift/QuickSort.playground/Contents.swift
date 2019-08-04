@@ -5,7 +5,7 @@ import UIKit
 // the '&' operator
 func quickSortHoare<T:Comparable>(arr: inout [T], startIndex: Int, endIndex: Int) -> [T] {
     if startIndex < endIndex {
-        let pivotValue = partitionHoare(array: &arr, startIndex: startIndex, endIndex: endIndex)
+        let pivotValue: Int = partitionHoare(array: &arr, startIndex: startIndex, endIndex: endIndex)
         
         quickSortHoare(arr: &arr, startIndex: startIndex, endIndex: pivotValue)
         quickSortHoare(arr: &arr, startIndex: pivotValue + 1, endIndex: endIndex)
@@ -23,8 +23,8 @@ func quickSortHoare<T:Comparable>(arr: inout [T], startIndex: Int, endIndex: Int
 // Pivot is always expected to be the first element in the array
 func partitionHoare<T:Comparable>(array: inout [T], startIndex: Int, endIndex: Int) -> Int {
     let pivot: T = array[startIndex + (endIndex - startIndex) / 2]
-    var start = startIndex - 1
-    var end = endIndex + 1
+    var start: Int = startIndex - 1
+    var end: Int = endIndex + 1
     
     while true {
         repeat { end -= 1 } while array[end] > pivot
