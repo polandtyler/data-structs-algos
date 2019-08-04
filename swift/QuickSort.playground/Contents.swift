@@ -97,9 +97,9 @@ func quickSortRandom<T:Comparable>(array: inout Array<T>, start: Int, end: Int) 
 func partitionDutchFlag<T: Comparable>(_ array: inout [T], startIndex: Int, endIndex: Int, pivotIndex: Int) -> (Int, Int) {
     let pivot = array[pivotIndex]
     
-    var smaller = startIndex
-    var equal = startIndex
-    var larger = endIndex
+    var smaller: Int = startIndex
+    var equal: Int = startIndex
+    var larger: Int = endIndex
     
     while equal <= larger {
         if array[equal] < pivot {
