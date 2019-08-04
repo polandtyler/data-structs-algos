@@ -7,8 +7,21 @@ public class QuickSort {
         Integer[] ints = { 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, 3, -1, 26 };
         String[] strings = {"Zebra", "Xylophone", "Enjoy", "Llama", "King Arthur", "Lannister", "America", "America"};
 
+        System.out.println("HOARE'S ALGORITHM");
         System.out.println(Arrays.toString(quickSortHoare(ints, 0, ints.length - 1)));
         System.out.println(Arrays.toString(quickSortHoare(strings, 0, strings.length - 1)));
+
+        System.out.println("LOMUTO'S ALGORITHM");
+        System.out.println(Arrays.toString(quickSortLomuto(ints, 0, ints.length - 1)));
+        System.out.println(Arrays.toString(quickSortLomuto(strings, 0, strings.length - 1)));
+
+        System.out.println("RANDOM PIVOT GENERATION ALGORITHM");
+        System.out.println(Arrays.toString(quickSortRandom(ints, 0, ints.length - 1)));
+        System.out.println(Arrays.toString(quickSortRandom(strings, 0, strings.length - 1)));
+
+        System.out.println("DUTCH FLAG ALGORITHM");
+        System.out.println(Arrays.toString(quickSortDutchFlag(ints, 0, ints.length - 1)));
+        System.out.println(Arrays.toString(quickSortDutchFlag(strings, 0, strings.length - 1)));
     }
 
     /*
@@ -84,8 +97,16 @@ public class QuickSort {
     }
 
     public static <T extends Comparable<T>> T[] quickSortRandom(T[] array, int start, int end) {
+        if (start < end) {
+            int pivotIndex = partitionRandom(start, end);
 
-        // TODO: implementation
+            array[pivotIndex] = array[end];
+            array[end] = array[pivotIndex];
+
+            int p = partitionLomuto(array, start, end);
+            quickSortRandom(array, start, p - 1);
+            quickSortRandom(array, p + 1, end);
+        }
 
         return array;
     }
