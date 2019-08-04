@@ -111,16 +111,39 @@ public class QuickSort {
         return array;
     }
 
-    public static <T extends Comparable<T>> int dutchFlagPartition(T[] array, int start, int end) {
+    public static <T extends Comparable<T>> Tuple<Integer, Integer> dutchFlagPartition(T[] array, int start, int end, int pivotIndex) {
+        T pivot = array[pivotIndex];
 
-        // TODO: implementation
+        int smaller = start;
+        int equal = start;
+        int larger = end;
+
+        while (equal <= larger) {
+            if (array[equal].compareTo(pivot) < 0) {
+                ArraySwapHelper.swap(array, smaller, equal);
+                smaller += 1;
+                equal += 1;
+            } else if (array[equal].compareTo(pivot) == 0) {
+                equal += 1;
+            } else {
+                ArraySwapHelper.swap(array, equal, larger);
+                larger += 1;
+            }
+        }
+
+        return new Tuple<>(smaller, larger);
 
     }
 
     public static <T extends Comparable<T>> T[] quickSortDutchFlag(T[] array, int start, int end) {
+        if (start < end) {
+            int pivot = partitionRandom(start, end);
 
-        // TODO: implementation
-
+            Tuple<Integer, Integer> pair = dutchFlagPartition(array, start, end, pivot);
+            quickSortDutchFlag(array, start, pair.x - 1);
+            quickSortDutchFlag(array, pair.y + 1, end);
+        }
+        
         return array;
     }
 
@@ -134,5 +157,14 @@ HELPERS
         T t = array[first];
         array[first] = array[second];
         array[second] = t;
+    }
+}
+
+class Tuple<X, Y> {
+    public final X x;
+    public final Y y;
+    public Tuple(X x, Y y) {
+        this.x = x;
+        this.y = y;
     }
 }
