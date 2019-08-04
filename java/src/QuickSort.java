@@ -1,4 +1,7 @@
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class QuickSort {
 
@@ -44,5 +47,93 @@ public class QuickSort {
         arr[end] = temp;
 
         return start;
+    }
+
+    /*
+    Partitioning using Hoare's algorithm to find the pivot
+     */
+    public static <T extends Comparable<T>> int partitionHoare(T[] array, int start, int end) {
+        T pivot = array[start + (end - start) / 2];
+
+        int startIndex = start - 1;
+        int endIndex = end + 1;
+
+        while (true) {
+            do { endIndex -= 1; } while (array[endIndex].compareTo(pivot) > 0);
+            do { startIndex += 1; } while (array[startIndex].compareTo(pivot) < 0);
+
+            if (startIndex < endIndex) {
+                ArraySwapHelper.swap(array, startIndex, endIndex);
+            } else {
+                return endIndex;
+            }
+        }
+
+
+    }
+
+    public static <T extends Comparable<T>> T[] quickSortHoare(T[] array, int start, int end) {
+        if (start < end) {
+            int pivotValue = partitionHoare(array, start, end);
+
+            quickSortHoare(array, start, pivotValue);
+            quickSortHoare(array, pivotValue + 1, end);
+        }
+
+        return array;
+    }
+
+    /*
+    Partitioning using Lomuto's algorithm to find the pivot
+     */
+    public static <T extends Comparable<T>> int partitionLomuto(T[] array, int start, int end) {
+        // TODO: implementation
+    }
+
+    public static <T extends Comparable<T>> T[] quickSortLomuto(T[] array, int start, int end) {
+
+        // TODO: implementation
+
+        return array;
+    }
+
+    /*
+    Perform quicksort based on a random integer from within the range `(start, end)`
+     */
+    public static int partitionRandom(int start, int end) {
+        if (start > end) { throw new IllegalArgumentException("Start index must be less than end index"); }
+        return ThreadLocalRandom.current().nextInt(start, end);
+    }
+
+    public static <T extends Comparable<T>> T[] quickSortRandom(T[] array, int start, int end) {
+
+        // TODO: implementation
+
+        return array;
+    }
+
+    public static <T extends Comparable<T>> int dutchFlagPartition(T[] array, int start, int end) {
+
+        // TODO: implementation
+
+    }
+
+    public static <T extends Comparable<T>> T[] quickSortDutchFlag(T[] array, int start, int end) {
+
+        // TODO: implementation
+
+        return array;
+    }
+
+}
+
+class ArraySwapHelper {
+/*
+HELPERS
+ */
+    public static final <T extends Comparable<T>> void swap(T[] array, int first, int second) {
+        T t = array[first];
+        array[first] = array[second];
+        array[second] = t;
     }
 }
