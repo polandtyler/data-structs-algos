@@ -43,7 +43,7 @@ func partitionHoare<T:Comparable>(array: inout [T], startIndex: Int, endIndex: I
 // - Still in place sorting, still divide and conquer
 // - Difference: Uses last element in the array as a pivot value
 func partitionLomuto<T: Comparable>(array: inout [T], start: Int, end: Int) -> Int {
-    let pivot = array[end]
+    let pivot: T = array[end]
     
     var start = start
     for j in start..<end {
