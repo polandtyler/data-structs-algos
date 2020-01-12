@@ -5,15 +5,15 @@ open class AdjacencyList<T: Hashable> {
     public var adjacencyDict : [Vertex<T>: [Edge<T>]] = [:]
     public init() {}
     
-    fileprivate func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
-        let edge = Edge(source: source, destination: destination, weight: weight)
+    fileprivate func addDirectedEdge(from source: Vertex<Element>, to destination: Vertex<Element>) {
+        let edge = Edge(source: source, destination: destination)
         adjacencyDict[source]?.append(edge)
     }
     
-    fileprivate func addUndirectedEdge(vertices: (Vertex<Element>, Vertex<Element>), weight: Double?) {
+    fileprivate func addUndirectedEdge(vertices: (Vertex<Element>, Vertex<Element>)) {
         let (source, destination) = vertices
-        addDirectedEdge(from: source, to: destination, weight: weight)
-        addDirectedEdge(from: destination, to: source, weight: weight)
+        addDirectedEdge(from: source, to: destination)
+        addDirectedEdge(from: destination, to: source)
     }
 }
 
@@ -31,28 +31,28 @@ extension AdjacencyList: Graphable {
         return vertex
     }
     
-    public func add(_ type: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>, weight: Double?) {
+    public func add(_ type: EdgeType, from source: Vertex<Element>, to destination: Vertex<Element>) {
         switch type {
         case .directed:
-            addDirectedEdge(from: source, to: destination, weight: weight)
+            addDirectedEdge(from: source, to: destination)
         case .undirected:
-            addUndirectedEdge(vertices: (source, destination), weight: weight)
+            addUndirectedEdge(vertices: (source, destination))
         }
     }
     
-    public func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double? {
-        guard let edges = adjacencyDict[source] else {
-            return nil
-        }
-        
-        for edge in edges {
-            if edge.destination == destination {
-                return edge.weight
-            }
-        }
-        
-        return nil
-    }
+//    public func weight(from source: Vertex<Element>, to destination: Vertex<Element>) -> Double? {
+//        guard let edges = adjacencyDict[source] else {
+//            return nil
+//        }
+//        
+//        for edge in edges {
+//            if edge.destination == destination {
+//                return edge.weight
+//            }
+//        }
+//        
+//        return nil
+//    }
     
     
     public func edges(from source: Vertex<Element>) -> [Edge<Element>]? {
@@ -75,13 +75,4 @@ extension AdjacencyList: Graphable {
         return result
     }
 }
-
-/*
- NOTES:
- Can be represented by:
- - Array of arrays
- - Array of linked lists - ideal for fast insertion and deletion times
- - Dictionary of arrays (the approach taken above)
-    Used this method 
- */
 

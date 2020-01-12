@@ -3,16 +3,11 @@
 import UIKit
 import XCPlayground
 
-public enum Visit<Element: Hashable> {
-	case source
-	case edge(Edge<Element>)
-}
-
 extension Graphable {
 	public func breadthFirstSearch(from source: Vertex<Element>, to destination: Vertex<Element>) -> [Edge<Element>]? {
 		var queue = Queue<Vertex<Element>>()
 		queue.enqueue(source)
-		var visits : [Vertex<Element> : Visit<Element>] = [source: .source] // 1
+		var visits : [Vertex<Element> : Visit<Element>] = [source: .source]
 		
 		while let visitedVertex = queue.dequeue() {
 			if visitedVertex == destination {

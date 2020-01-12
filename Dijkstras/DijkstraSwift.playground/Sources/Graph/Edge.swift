@@ -9,15 +9,4 @@ public struct Edge<T: Hashable> {
 	public let weight: Double?
 }
 
-extension Edge: Hashable {
-	
-	public var hashValue: Int {
-		return "\(source)\(destination)\(weight ?? 0)".hashValue
-	}
-	
-	static public func ==(lhs: Edge<T>, rhs: Edge<T>) -> Bool {
-		return lhs.source == rhs.source &&
-			lhs.destination == rhs.destination &&
-			lhs.weight == rhs.weight
-	}
-}
+extension Edge: Hashable {}

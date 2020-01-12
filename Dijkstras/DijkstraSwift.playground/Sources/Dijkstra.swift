@@ -1,14 +1,19 @@
 import Foundation
 
+public enum Visit<Element: Hashable> {
+    case source
+    case edge(Edge<Element>)
+}
+
 extension AdjacencyList {
-    public func route(to destination: Vertex<Element>, in tree: [Vertex<Element> : Visit<Element>]) -> [Edge<Element>] {
-        var vertex = destination // track current vertex
-        var path: [Edge<Element>] = [] // track edges from root to destination ('visited' paths)
+    public func route(to destination: Vertex<Element>, in adjacencyList: [Vertex<Element> : Visit<Element>]) -> [Edge<Element>] {
+        var vertex = destination // keep track of current vertex
+        var path: [Edge<Element>] = [] // keep track of edges from root to destination ('visited' paths)
         
         // while loop to 'gather' the edges
         // also tests that there is a visit entry for the current vertex and that the entry is an edge
         // loop ends when condition fails
-        while let visit = tree[vertex], case .edge(let edge) = visit {
+        while let visit = adjacencyList[vertex], case .edge(let edge) = visit {
             // add the edge to the beginning of the path
             path = [edge] + path
             // and set vertex to the edge's source vertex (moves one step closer to the root)
@@ -19,9 +24,9 @@ extension AdjacencyList {
     }
     
     // Assumes that all edges which make up part of a route actually DO have a weight
-    public func distance(to destination: Vertex<Element>, in tree: [Vertex<Element>: Visit<Element>]) -> Double {
+    public func distance(to destination: Vertex<Element>, in adjacencyList: [Vertex<Element>: Visit<Element>]) -> Double {
         // get the list of edges in the path
-        let path = route(to: destination, in: tree)
+        let path = route(to: destination, in: adjacencyList)
         // map each edge into its weight. if an edge's weight is nil, that edge gets ignored
         let distances = path.compactMap { $0.weight }
         // reduce the array of distances to their total (assumes a path with no edges has 0.0 distance)
@@ -50,7 +55,7 @@ extension AdjacencyList {
             // ...not the one youre looking for, continue exploring
             // 2. get list of neighboring edges, or creating an empty list if none
             let neighbors = edges(from: visited) ?? []
-            // 3. iterate through list of neighbors (if nomne, no iterations)
+            // 3. iterate through list of neighbors (if none, no iterations)
             for edge in neighbors {
                 // 3a. test if the neighboring edge has a weight
                 if let weight = edge.weight {

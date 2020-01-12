@@ -1,24 +1,32 @@
-let dungeon = AdjacencyList<String>()
+/*
+ Kindly adapted from wonderful tutorials by
+ the brilliant minds at RayWenderlich.com
+*/
 
-let entranceRoom = dungeon.createVertex(data: "Entrance")
-let spiderRoom = dungeon.createVertex(data: "Spider")
-let goblinRoom = dungeon.createVertex(data: "Goblin")
-let ratRoom = dungeon.createVertex(data: "Rat")
-let treasureRoom = dungeon.createVertex(data: "Treasure")
+//PROBLEM: Find the shortest path from ATX to Rome!
+// Create the flight paths graph
+let airRoutes = AdjacencyList<String>()
 
-dungeon.add(.undirected, from: entranceRoom, to: spiderRoom, weight: 9)
-dungeon.add(.undirected, from: entranceRoom, to: ratRoom, weight: 31)
-dungeon.add(.undirected, from: spiderRoom, to: goblinRoom, weight: 12)
-dungeon.add(.undirected, from: goblinRoom, to: treasureRoom, weight: 5)
-dungeon.add(.undirected, from: ratRoom, to: treasureRoom, weight: 12)
+// Add cities (vertices) to the list of routes (graph)
+let austin = airRoutes.createVertex(data: "Austin")
+let sydney = airRoutes.createVertex(data: "Sydney")
+let berlin = airRoutes.createVertex(data: "Berlin")
+let london = airRoutes.createVertex(data: "London")
+let rome = airRoutes.createVertex(data: "Rome")
 
-// NOTE: WHAT HAPPENS IF ONE OF THESE WEIGHTS IS NEGATIVE??
+// Add routes (edges)
+airRoutes.add(.undirected, from: austin, to: sydney, weight: 9)
+airRoutes.add(.undirected, from: austin, to: london, weight: 31)
+airRoutes.add(.undirected, from: sydney, to: berlin, weight: 12)
+airRoutes.add(.undirected, from: berlin, to: rome, weight: 5)
+airRoutes.add(.undirected, from: london, to: rome, weight: 12)
 
-print(dungeon.description)
+print(airRoutes.description)
 
 print("SHORTEST ROUTE")
 print("========================")
-if let edges = dungeon.dijkstra(from: entranceRoom, to: treasureRoom) {
+
+if let edges = airRoutes.dijkstra(from: austin, to: rome) {
   for edge in edges {
     print("\(edge.source) -> \(edge.destination)")
   }

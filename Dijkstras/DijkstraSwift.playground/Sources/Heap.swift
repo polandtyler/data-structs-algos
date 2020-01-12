@@ -29,6 +29,7 @@ struct Heap<Element>
 		siftUp(elementAtIndex: count - 1)
 	}
 	
+    // recursive function to move the specified element to the top / raise priority in queue
 	mutating func siftUp(elementAtIndex index: Int) {
 		let parent = parentIndex(of: index)
 		guard !isRoot(index),
@@ -49,6 +50,7 @@ struct Heap<Element>
 		return element
 	}
 	
+    // move element down in priority
 	mutating func siftDown(elementAtIndex index: Int) {
 		let childIndex = highestPriorityIndex(for: index)
 		if index == childIndex {
